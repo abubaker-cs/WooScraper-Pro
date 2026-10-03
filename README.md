@@ -67,7 +67,8 @@ It utilizes a **Universal Adapter Pattern** to normalize data from radically dif
 
 ## 📅 Release History & Revision Log
 
-### v3.2.0 (Current)
+### v3.3.0 (Current)
+*   **[Engine Upgrade]** Implemented a Real-Time Virtual DOM Cleaner for Odoo adapters to strip complex page layouts, form inputs, and injected CSS from product descriptions, outputting pristine text.
 *   **[Feature]** Added `unlimitedStorage` manifest permission to bypass Chrome's 5MB limit, preventing silent crashes on massive catalogs.
 *   **[Feature]** Upgraded Jasani (Odoo) adapter with a 3-Tier SKU fallback (Class -> Visual Text -> URL Slug) and dual-block string compression (e.g., "TBSN 2142" -> "TBSN2142").
 *   **[UI]** Added a dedicated "Reset Engine" button to the Sidebar to instantly clear the `chrome.storage.local` database.

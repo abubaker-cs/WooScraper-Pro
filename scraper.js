@@ -253,40 +253,39 @@
     let ogTitle = doc.querySelector('meta[property="og:title"]')?.content || '';
     let title = doc.querySelector('h1[itemprop="name"]')?.textContent.trim() || ogTitle.split('|')[0].trim() || 'Unknown';
     
-    // --- 3-TIER SKU EXTRACTION ---
     let sku = doc.querySelector('.default_code')?.textContent.trim() || doc.querySelector('[itemprop="sku"]')?.textContent.trim();
     
     if (!sku || sku === 'N/A') {
       let bodyText = doc.body.textContent; 
-      // UPGRADED REGEX: Captures the first block, plus an optional space and second block (e.g., "TBSN 2142")
       let skuMatch = bodyText.match(/(?:Item Code|SKU|Product Code)[\s:]*([A-Za-z0-9-]+(?:\s+[A-Za-z0-9-]+)?)/i);
-      
-      if (skuMatch) {
-          sku = skuMatch[1];
-      } 
+      if (skuMatch) sku = skuMatch[1];
       else {
           let urlMatch = url.match(/\/shop\/([a-zA-Z0-9]+-[a-zA-Z0-9]+)-/i) || url.match(/\/shop\/([a-zA-Z0-9]+)-/i);
           sku = urlMatch ? urlMatch[1].toUpperCase() : 'N/A';
       }
     }
     
-    // NEW: Force-strip all spaces from the final SKU (e.g., "TBSN 2142" -> "TBSN2142")
-    if (sku && sku !== 'N/A') {
-        sku = sku.replace(/\s+/g, '');
-    }
+    if (sku && sku !== 'N/A') sku = sku.replace(/\s+/g, '');
     
     let priceElem = doc.querySelector('.oe_currency_value') || doc.querySelector('[itemprop="price"]');
     let price = priceElem ? priceElem.textContent.replace(/[^0-9.]/g, '') : '0.00';
     
-    let desc = doc.querySelector('#product_details')?.innerHTML.trim() || doc.querySelector('meta[name="description"]')?.content.trim() || '';
+    let rawDesc = doc.querySelector('#product_details')?.innerHTML || doc.querySelector('meta[name="description"]')?.content || '';
+    let temp = document.createElement('div');
+    temp.innerHTML = rawDesc;
     
-    // Strip Base64 image bloat from the description
-    desc = desc.replace(/src="data:image[^"]+"/g, 'src=""');
+    // Strip all layout junk, forms, hidden elements, and buttons/links
+    temp.querySelectorAll('form, input, button, script, style, svg, [style*="display:none"], [style*="display: none"], .btn, a').forEach(el => el.remove());
+    
+    // Extract raw text, normalize spaces, filter empty lines, and format for WooCommerce
+    let cleanText = temp.innerText.replace(/[\u00A0\t]/g, ' ');
+    let lines = cleanText.split(/\r?\n/).map(line => line.trim()).filter(line => line.length > 0);
+    let finalDesc = lines.join("<br><br>");
     
     let images = Array.from(doc.querySelectorAll('#o-carousel-product img.img-fluid, [itemprop="image"]')).map(img => img.src || img.content).filter(src => src && !src.includes('data:image'));
     if(images.length === 0 && doc.querySelector('meta[property="og:image"]')) images.push(doc.querySelector('meta[property="og:image"]').content);
     
-    return { Type: 'simple', SKU: sku, Name: title, RegularPrice: price, ShortDescription: desc, LongDescription: desc, Categories: 'Jasani Import', Tags: '', Images: [...new Set(images)].join(', ') };
+    return { Type: 'simple', SKU: sku, Name: title, RegularPrice: price, ShortDescription: finalDesc, LongDescription: finalDesc, Categories: 'Jasani Import', Tags: '', Images: [...new Set(images)].join(', '), SourceURL: url };
   }
 
   // --- ADAPTER 2: HAKPLUS (OPENCART) ---
