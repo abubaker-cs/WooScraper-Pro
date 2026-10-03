@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "WooExtractor Pro",
+  "version": "3.1",
+  "description": "Advanced multi-platform e-commerce extractor.",
+  "permissions": [
+    "activeTab", 
+    "scripting", 
+    "storage", 
+    "sidePanel",
+    "unlimitedStorage"
+  ],
+  "host_permissions": ["*://*/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Open WooExtractor Side Panel"
+  },
+  "side_panel": {
+    "default_path": "sidebar.html"
+  }
+}

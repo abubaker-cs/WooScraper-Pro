@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WooExtractor Pro - Export</title>
+  <style>
+    :root {
+      --bg-main: #0f172a; --bg-card: #1e293b; --text-main: #f8fafc;
+      --text-muted: #94a3b8; --accent: #8b5cf6; --accent-hover: #7c3aed;
+      --border-color: #334155; --woo-color: #96588a; --shopify-color: #95bf47;
+      --excel-color: #107c41; --font-family: system-ui, -apple-system, sans-serif;
+    }
+    body {
+      background-color: var(--bg-main); color: var(--text-main);
+      font-family: var(--font-family); margin: 0; padding: 40px;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .container { max-width: 800px; width: 100%; }
+    .header { text-align: center; margin-bottom: 40px; }
+    .header h1 { font-size: 28px; margin-bottom: 8px; color: var(--accent); }
+    .header p { color: var(--text-muted); font-size: 16px; }
+    
+    .stats-card {
+      background: var(--bg-card); border: 1px solid var(--border-color);
+      border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 40px;
+    }
+    .stats-card h2 { margin: 0; font-size: 36px; color: var(--text-main); }
+    .stats-card span { color: var(--text-muted); font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+
+    .export-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;
+    }
+    .export-card {
+      background: var(--bg-card); border: 1px solid var(--border-color);
+      border-radius: 12px; padding: 24px; text-align: center;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .export-card:hover { transform: translateY(-4px); border-color: var(--text-muted); }
+    .export-card h3 { margin: 0 0 10px 0; font-size: 18px; }
+    .export-card p { color: var(--text-muted); font-size: 13px; margin-bottom: 24px; line-height: 1.5; }
+    
+    .btn {
+      width: 100%; padding: 12px; border: none; border-radius: 6px;
+      font-size: 14px; font-weight: 600; color: white; cursor: pointer; transition: opacity 0.2s;
+    }
+    .btn:hover { opacity: 0.9; }
+    .btn-woo { background: var(--woo-color); }
+    .btn-shopify { background: var(--shopify-color); }
+    .btn-excel { background: var(--excel-color); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Extraction Complete</h1>
+      <p>Your product catalog has been successfully captured and stored in memory.</p>
+    </div>
+
+    <div class="stats-card">
+      <h2 id="totalCount">0</h2>
+      <span>Total Products Extracted</span>
+    </div>
+
+    <div class="export-grid">
+      <!-- WooCommerce Export -->
+      <div class="export-card">
+        <h3>WooCommerce CSV</h3>
+        <p>Perfectly mapped headers ready for a direct import into a clean WooCommerce installation.</p>
+        <button id="btnWoo" class="btn btn-woo">Download WooCommerce</button>
+      </div>
+
+      <!-- Shopify Export -->
+      <div class="export-card">
+        <h3>Shopify CSV</h3>
+        <p>Restructures the data and images into Shopify's required import format for instant migration.</p>
+        <button id="btnShopify" class="btn btn-shopify">Download Shopify</button>
+      </div>
+
+      <!-- Excel Export -->
+      <div class="export-card">
+        <h3>Standard CSV (Excel)</h3>
+        <p>A clean, easy-to-read database format for analyzing pricing, descriptions, and stock locally.</p>
+        <button id="btnExcel" class="btn btn-excel">Download for Excel</button>
+      </div>
+    </div>
+  </div>
+  <script src="export.js"></script>
+</body>
+</html>

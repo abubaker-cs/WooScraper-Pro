@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+        <h2>WooExtractor Pro</h2>
+      </div>
+      <span class="badge">v2.0</span>
+    </header>
+
+    <!-- Controls -->
+    <div class="controls">
+      <button id="startBtn" class="btn btn-primary">Start Deep Scan</button>
+      <button id="downloadBtn" class="btn btn-secondary" disabled>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        Export CSV
+      </button>
+      <button id="resetCacheBtn" class="reset-btn" style="background-color: #ff4757; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; margin-left: 10px;">
+        Reset Engine
+      </button>
+    </div>
+
+    <!-- Progress Tracker -->
+    <div class="progress-section">
+      <div class="progress-info">
+        <span id="statusText">Ready to initialize...</span>
+        <span id="progressPercent">0%</span>
+      </div>
+      <div class="progress-track">
+        <div id="progressBar" class="progress-fill"></div>
+      </div>
+    </div>
+
+    <!-- Live Data Preview Table -->
+    <div class="preview-section">
+      <div class="section-header">
+        <h3>Live Data Preview</h3>
+        <span id="productCount" class="count-badge">0 items</span>
+      </div>
+      <div class="table-container">
+        <table id="previewTable">
+          <thead>
+            <tr>
+              <th>SKU</th>
+              <th>Product Name</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <tr class="empty-state"><td colspan="3">Awaiting data...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Terminal Console -->
+    <div class="console-section">
+      <h3>System Logs</h3>
+      <div id="consoleBox" class="console-container">
+        <div class="log-entry system">[System] Engine ready. Target: current tab.</div>
+      </div>
+    </div>
+
+  </div>
+  <script src="sidebar.js"></script>
+</body>
+</html>
